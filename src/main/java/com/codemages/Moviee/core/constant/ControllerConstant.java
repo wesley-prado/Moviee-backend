@@ -1,4 +1,4 @@
-package com.codemages.Moviee.constant;
+package com.codemages.Moviee.core.constant;
 
 public class ControllerConstant {
   public static final String API_BASE = "/api";

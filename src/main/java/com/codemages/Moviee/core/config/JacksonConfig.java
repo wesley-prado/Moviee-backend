@@ -1,4 +1,4 @@
-package com.codemages.Moviee.config;
+package com.codemages.Moviee.core.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
