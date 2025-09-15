@@ -1,6 +1,6 @@
 package com.codemages.Moviee.user.controller.v1;
 
-import com.codemages.Moviee.constant.ControllerConstant;
+import com.codemages.Moviee.core.constant.ControllerConstant;
 import com.codemages.Moviee.user.assembler.RoleModelAssembler;
 import com.codemages.Moviee.user.constant.Role;
 import com.codemages.Moviee.user.dto.RoleResponseDTO;

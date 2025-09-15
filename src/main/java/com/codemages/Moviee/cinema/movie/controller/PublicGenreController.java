@@ -4,7 +4,7 @@ import com.codemages.Moviee.cinema.movie.GenreService;
 import com.codemages.Moviee.cinema.movie.assembler.GenreModelAssembler;
 import com.codemages.Moviee.cinema.movie.constant.Genre;
 import com.codemages.Moviee.cinema.movie.dto.GenreResponseDTO;
-import com.codemages.Moviee.constant.ControllerConstant;
+import com.codemages.Moviee.core.constant.ControllerConstant;
 import lombok.AllArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;

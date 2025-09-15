@@ -1,6 +1,6 @@
 package com.codemages.Moviee.auth.client.exception;
 
-import com.codemages.Moviee.exception.ErrorResponse;
+import com.codemages.Moviee.core.exception.ErrorResponse;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpStatus;

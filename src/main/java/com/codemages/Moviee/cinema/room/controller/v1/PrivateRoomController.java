@@ -4,7 +4,7 @@ import com.codemages.Moviee.cinema.room.RoomService;
 import com.codemages.Moviee.cinema.room.assembler.RoomModelAssembler;
 import com.codemages.Moviee.cinema.room.dto.request.RoomCreationDTO;
 import com.codemages.Moviee.cinema.room.dto.response.RoomResponseDTO;
-import com.codemages.Moviee.constant.ControllerConstant;
+import com.codemages.Moviee.core.constant.ControllerConstant;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;

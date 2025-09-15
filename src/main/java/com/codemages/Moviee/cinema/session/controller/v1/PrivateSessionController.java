@@ -4,7 +4,7 @@ import com.codemages.Moviee.cinema.session.SessionService;
 import com.codemages.Moviee.cinema.session.assembler.SessionModelAssembler;
 import com.codemages.Moviee.cinema.session.dto.SessionCreationDTO;
 import com.codemages.Moviee.cinema.session.dto.SessionResponseDTO;
-import com.codemages.Moviee.constant.ControllerConstant;
+import com.codemages.Moviee.core.constant.ControllerConstant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;

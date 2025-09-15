@@ -3,7 +3,7 @@ package com.codemages.Moviee.cinema.movie.controller;
 import com.codemages.Moviee.cinema.movie.MovieService;
 import com.codemages.Moviee.cinema.movie.assembler.MovieModelAssembler;
 import com.codemages.Moviee.cinema.movie.dto.MovieResponseDTO;
-import com.codemages.Moviee.constant.ControllerConstant;
+import com.codemages.Moviee.core.constant.ControllerConstant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
