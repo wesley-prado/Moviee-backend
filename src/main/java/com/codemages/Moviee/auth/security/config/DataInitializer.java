@@ -4,7 +4,8 @@ import com.codemages.Moviee.auth.client.ClientService;
 import com.codemages.Moviee.auth.client.dto.ClientDTO;
 import com.codemages.Moviee.user.UserService;
 import com.codemages.Moviee.user.constant.DocumentType;
-import com.codemages.Moviee.user.dto.PublicUserCreationDTO;
+import com.codemages.Moviee.user.constant.Role;
+import com.codemages.Moviee.user.dto.PrivateUserCreationDTO;
 import com.codemages.Moviee.user.dto.UserResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,15 +26,24 @@ public class DataInitializer {
   CommandLineRunner initData() {
     return args -> {
       if ( !userService.isUsernameTaken( "myuser" ) ) {
-        PublicUserCreationDTO user = new PublicUserCreationDTO(
+        PrivateUserCreationDTO user = new PrivateUserCreationDTO(
           "myuser", "user@mail.com",
           "User1#@@", "336189783",
-          DocumentType.RG.name()
+          DocumentType.RG.name(),
+          Role.USER
+        );
+        PrivateUserCreationDTO admin = new PrivateUserCreationDTO(
+          "admin", "admin@mail.com",
+          "Admin1#@", "479212910",
+          DocumentType.RG.name(),
+          Role.ADMIN
         );
 
-        UserResponseDTO userResponse = userService.createPublicUser( user );
+        UserResponseDTO regularUser = userService.createPrivateUser( user );
+        UserResponseDTO adminUser = userService.createPrivateUser( admin );
 
-        log.debug( "Created Public User: {}", userResponse );
+        log.debug( "Created Regular User: {}", regularUser );
+        log.debug( "Created Admin User: {}", adminUser );
       }
 
       if ( !clientService.existsByClientId( "postman" ) ) {
