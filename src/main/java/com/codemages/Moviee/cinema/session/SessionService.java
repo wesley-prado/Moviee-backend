@@ -6,6 +6,7 @@ import com.codemages.Moviee.cinema.room.RoomRepository;
 import com.codemages.Moviee.cinema.room.exception.RoomNotFoundException;
 import com.codemages.Moviee.cinema.session.dto.SessionCreationDTO;
 import com.codemages.Moviee.cinema.session.dto.SessionResponseDTO;
+import com.codemages.Moviee.cinema.session.exception.MinimumSessionDurationException;
 import com.codemages.Moviee.cinema.session.exception.SessionDatetimeOverlapException;
 import com.codemages.Moviee.cinema.session.exception.SessionNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -49,14 +51,19 @@ public class SessionService {
       .orElseThrow( () -> new RoomNotFoundException(
         "Sala com o Id " + dto.roomId() + " não encontrada" ) );
 
-    ZonedDateTime endTime = dto.startTime()
-      .plusMinutes( movie.getDurationInMinutes() );
+    long timeDiffInMinutes = getTimeDiffInMinutes( dto.startTime(), dto.endTime() );
+
+    if ( timeDiffInMinutes < movie.getDurationInMinutes() ) {
+      throw new MinimumSessionDurationException(
+        "O horário de término da sessão deve ser ao menos " + movie.getDurationInMinutes() +
+          " minutos após o horário de início, considerando a duração do filme." );
+    }
 
     var session = Session.builder()
       .movie( movie )
       .room( room )
       .startTime( dto.startTime() )
-      .endTime( endTime )
+      .endTime( dto.endTime() )
       .build();
 
     try {
@@ -84,5 +91,9 @@ public class SessionService {
 
   private static ZonedDateTime convertToLocalTime(ZonedDateTime dateTime) {
     return dateTime.withZoneSameInstant( ZONE_ID );
+  }
+
+  private long getTimeDiffInMinutes(ZonedDateTime start, ZonedDateTime end) {
+    return ChronoUnit.MINUTES.between( start, end );
   }
 }

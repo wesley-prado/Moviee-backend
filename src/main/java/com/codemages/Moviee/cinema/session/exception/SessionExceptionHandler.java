@@ -15,4 +15,11 @@ public class SessionExceptionHandler {
   ) {
     return ErrorResponse.create( ex.getMessage(), HttpStatus.CONFLICT, null );
   }
+
+  @ExceptionHandler(MinimumSessionDurationException.class)
+  public ResponseEntity<ErrorResponse> handleMinimumSessionDurationException(
+    MinimumSessionDurationException ex
+  ) {
+    return ErrorResponse.create( ex.getMessage(), HttpStatus.BAD_REQUEST, null );
+  }
 }
