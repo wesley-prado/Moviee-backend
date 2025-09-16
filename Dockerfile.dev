@@ -1,15 +1,19 @@
-FROM openjdk:21-jdk-slim AS deps
+FROM openjdk:21-jdk-slim-buster AS build
 WORKDIR /app
-COPY pom.xml /app
+
+COPY pom.xml .
 COPY .mvn .mvn
-COPY ./mvnw ./mvnw
+COPY mvnw .
 RUN ./mvnw de.qaware.maven:go-offline-maven-plugin:resolve-dependencies
+COPY src src
 
-FROM openjdk:21-jdk-slim AS builder
+RUN ./mvnw clean package -DskipTests
+
+FROM eclipse-temurin:21-jre-alpine-3.22
+
 WORKDIR /app
-COPY --from=deps /root/.m2/repository /root/.m2/repository
-COPY . .
-RUN chmod +x ./docker-entrypoint.sh
+COPY --from=build /app/target/*.jar /app/app.jar
 
-ENTRYPOINT [ "/app/docker-entrypoint.sh" ]
-CMD [ "./mvnw", "spring-boot:run", "-Dspring-boot.run.arguments=--logging.level.org.springframework=DEBUG" ]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+
+# CMD ["java", "-jar", "/app/app.jar", "--logging.level.org.springframework=DEBUG"]
