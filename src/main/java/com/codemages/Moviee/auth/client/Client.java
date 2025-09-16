@@ -10,7 +10,7 @@ import java.util.UUID;
 import static com.codemages.Moviee.auth.client.constant.RegexConstant.URL_PATTERN;
 
 @Entity
-@Table(name = "clients")
+@Table(name = "clients", schema = "auth")
 @Data
 public class Client {
   @Id

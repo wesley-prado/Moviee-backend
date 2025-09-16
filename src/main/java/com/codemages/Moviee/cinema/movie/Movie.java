@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "movies")
+@Table(name = "movies", schema = "cinema")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -30,7 +30,9 @@ public class Movie {
   private Integer year;
 
   @ElementCollection(targetClass = Genre.class)
-  @CollectionTable(name = "movie_genres", joinColumns = @JoinColumn(name = "movie_id"))
+  @CollectionTable(name = "movie_genres",
+    joinColumns = @JoinColumn(name = "movie_id"),
+    schema = "cinema")
   @Enumerated(EnumType.STRING)
   @Builder.Default
   private List<Genre> genres = new ArrayList<>();
@@ -50,13 +52,17 @@ public class Movie {
   private String director;
 
   @ElementCollection
-  @CollectionTable(name = "movie_cast", joinColumns = @JoinColumn(name = "movie_id"))
+  @CollectionTable(name = "movie_cast",
+    joinColumns = @JoinColumn(name = "movie_id"),
+    schema = "cinema")
   @Column(name = "cast_member")
   @Builder.Default
   private List<String> castMembers = new ArrayList<>();
 
   @ElementCollection
-  @CollectionTable(name = "movie_writers", joinColumns = @JoinColumn(name = "movie_id"))
+  @CollectionTable(name = "movie_writers",
+    joinColumns = @JoinColumn(name = "movie_id"),
+    schema = "cinema")
   @Builder.Default
   private List<String> writers = new ArrayList<>();
 }

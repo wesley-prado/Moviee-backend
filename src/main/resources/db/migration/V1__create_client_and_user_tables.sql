@@ -1,4 +1,6 @@
-CREATE TABLE clients
+CREATE SCHEMA IF NOT EXISTS auth;
+
+CREATE TABLE auth.clients
 (
   id            UUID         NOT NULL,
   client_id     VARCHAR(100) NOT NULL,
@@ -8,7 +10,7 @@ CREATE TABLE clients
   CONSTRAINT pk_clients PRIMARY KEY (id)
 );
 
-CREATE TABLE users
+CREATE TABLE auth.users
 (
   id            UUID         NOT NULL,
   username      VARCHAR(20)  NOT NULL,
@@ -21,14 +23,14 @@ CREATE TABLE users
   CONSTRAINT pk_users PRIMARY KEY (id)
 );
 
-ALTER TABLE clients
+ALTER TABLE auth.clients
   ADD CONSTRAINT uc_clients_clientid UNIQUE (client_id);
 
-ALTER TABLE users
+ALTER TABLE auth.users
   ADD CONSTRAINT uc_users_document UNIQUE (document);
 
-ALTER TABLE users
+ALTER TABLE auth.users
   ADD CONSTRAINT uc_users_email UNIQUE (email);
 
-ALTER TABLE users
+ALTER TABLE auth.users
   ADD CONSTRAINT uc_users_username UNIQUE (username);

@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", schema = "auth")
 @Data
 @Relation(value = "user", collectionRelation = "users")
 public class User implements Serializable {

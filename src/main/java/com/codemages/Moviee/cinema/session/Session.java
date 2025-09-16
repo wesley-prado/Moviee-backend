@@ -10,6 +10,7 @@ import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "sessions",
+  schema = "cinema",
   indexes = {
     @Index(name = "idx_active_sessions", columnList = "room_id")
   }

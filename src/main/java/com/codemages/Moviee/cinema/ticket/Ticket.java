@@ -7,12 +7,14 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "tickets", uniqueConstraints = {
-  @UniqueConstraint(
-    name = "uk_unique_session_seat",
-    columnNames = { "session_id", "seat_number" }
-  )
-})
+@Table(name = "tickets",
+  schema = "cinema",
+  uniqueConstraints = {
+    @UniqueConstraint(
+      name = "uk_unique_session_seat",
+      columnNames = { "session_id", "seat_number" }
+    )
+  })
 @Getter
 @Setter
 @Builder
