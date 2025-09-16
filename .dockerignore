@@ -1,0 +1,26 @@
+# IDE FILES
+.idea
+*.iml
+
+# GIT FILES
+.gitattributes
+.gitignore
+
+# CONFIGURATION FILES
+*.log
+.env.*
+
+# DOCS
+*.md
+docs
+
+# SYSTEM FILES
+htmlReport
+nginx-dev
+
+# BUILD & TEST FILES
+test
+target
+
+# DOCKER
+docker-compose.*
