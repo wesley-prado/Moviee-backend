@@ -1,0 +1,26 @@
+{
+  "_embedded": {
+    "users": [
+      {
+        "id": "069af49f-030d-4e41-895a-1b40aaf1cdd3",
+        "username": "myuser",
+        "email": "user@mail.com",
+        "role": "USER",
+        "status": "ACTIVE",
+        "_links": {
+          "self": {
+            "href": "https://localhost/api/v1/users/069af49f-..."
+          },
+          "users": {
+            "href": "https://localhost/api/v1/users"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "https://localhost/api/v1/users"
+    }
+  }
+}
