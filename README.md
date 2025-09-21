@@ -16,7 +16,10 @@ management, seat reservation functionality, and reporting on reservations.
 
 ## Project Structure
 
-The project implements a feature-based architecture to promote high cohesion and low coupling. Business logic domains (like `movie`, `room`, `session`) are encapsulated within the main `cinema` package. Cross-cutting concerns such as security configuration (`auth`), user data management (`user`), and infrastructure logic (`core`) are separated into distinct root packages.
+The project implements a feature-based architecture to promote high cohesion and low coupling.
+Business logic domains (like `movie`, `room`, `session`) are encapsulated within the main `cinema`
+package. Cross-cutting concerns such as security configuration (`auth`), user data management (
+`user`), and infrastructure logic (`core`) are separated into distinct root packages.
 
 ```ASCII
 src/main/java/com/codemages/Moviee
@@ -50,7 +53,8 @@ src/main/java/com/codemages/Moviee
 - Role-based access control (ADMIN, MODERATOR, USER)
 - Custom login page with username/password authentication
 - Custom consent page for OAuth2 authorization flow
-- Password validation with strong password requirements (upper, lower, special characters, digits and minimum length)
+- Password validation with strong password requirements (upper, lower, special characters, digits
+  and minimum length)
 - JWT token-based authentication with refresh-token
 
 ### API Documentation
@@ -86,85 +90,55 @@ docker compose -f docker-compose.dev.yml up -d
 The application will be available at [https://localhost:443](https://localhost:443).
 
 **Note on SSL Certificate:**
-Nginx is configured to use SSL for local testing. You must generate a self-signed certificate before running Docker Compose.
+Nginx is configured to use SSL for local testing. You must generate a self-signed certificate before
+running Docker Compose.
 
-1.  Navigate to the `nginx-dev` directory (or appropriate location).
-2.  Run the following OpenSSL command (if you don't have an existing certificate):
+1. Navigate to the `nginx-dev` directory (or appropriate location).
+2. Run the following OpenSSL command (if you don't have an existing certificate):
 
-    ```bash
-    # Generates a certificate valid for 365 days
-    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-      -keyout nginx-selfsigned.key -out nginx-selfsigned.crt \
-      -subj "/C=BR/ST=Sao Paulo/L=Sao Paulo/O=Dev/CN=localhost"
-    ```
+   ```bash
+   # Generates a certificate valid for 365 days
+   openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+     -keyout nginx-selfsigned.key -out nginx-selfsigned.crt \
+     -subj "/C=BR/ST=Sao Paulo/L=Sao Paulo/O=Dev/CN=localhost"
+   ```
 
-3.  After generating, start the application. You may need to accept the browser's security warning upon first access.
+3. After generating, start the application. You may need to accept the browser's security warning
+   upon first access.
 
 ### Default Credentials
 
 * **Admin user:**
-
   * Username: `admin`
   * Password: `Admin1#@`
 
 * **Regular user:**
-
-  * Username: `user`
+  * Username: `myuser`
   * Password: `User1#@@`
-
-## Project Status
-
-### Features Implemented
-
-* [x] User authentication with OAuth2 and JWT
-* [x] Nginx acting as reverse proxy with TLS termination
-* [x] Role-based authorization with hierarchy (ADMIN, MODERATOR, USER)
-* [x] User registration and management
-* [x] Custom login page
-* [x] Remember-me on login
-* [x] Custom OAuth2 consent page
-* [x] Strong password validation
-* [x] Docker and Docker Compose support
-* [x] HAL+JSON API with HATEOAS
-* [x] Movie categorization by genre
-
-### Features Under Development
-* Movie management
-* Room management
-* Session management
-
-### Features To Be Implemented
-* [ ] API documentation with OpenAPI/Swagger
-* [ ] Booking management
-* [ ] Creation of Postman runners for integration tests
-* [ ] Add Rest Assured
-* [ ] User reservation overview
-* [ ] Reservation cancellation
-* [ ] Email notifications
-* [ ] Admin reporting (reservations, capacity, revenue)
-* [ ] File upload for movie posters
-* [ ] CI/CD pipeline
-* [ ] Production Deploy
-
-### Improvements
-* [ ] Login with Google
-* [ ] Ticket discount
-* [ ] System refactoring
 
 ## Notes on Login and Consent Pages
 
-Although the primary goal of this project's API component (Resource Server) is to function as a backend system, this application currently implements a monolithic structure that also includes the role of an Authorization Server.
+Although the primary goal of this project's API component (Resource Server) is to function as a
+backend system, this application currently implements a monolithic structure that also includes the
+role of an Authorization Server.
 
-For learning purposes and to demonstrate the complete OAuth2 flow using Spring Authorization Server, custom login (`/login`) and consent (`/oauth2/consent`) pages are included. These pages are essential for user-interaction flows (like Authorization Code Grant), allowing the user to authenticate and grant permissions.
+For learning purposes and to demonstrate the complete OAuth2 flow using Spring Authorization Server,
+custom login (`/login`) and consent (`/oauth2/consent`) pages are included. These pages are
+essential for user-interaction flows (like Authorization Code Grant), allowing the user to
+authenticate and grant permissions.
 
 **Future Architectural Improvements:**
 
 A potential enhancement would be to separate this monolith into distinct services:
 
-1.  **Authorization Server:** This service would retain the login and consent pages, focusing exclusively on authentication and token issuance.
-2.  **Resource Server:** This service would become a pure backend API, containing only the business logic endpoints, and would be configured to validate tokens issued by the separate Authorization Server.
+1. **Authorization Server:** This service would retain the login and consent pages, focusing
+   exclusively on authentication and token issuance.
+2. **Resource Server:** This service would become a pure backend API, containing only the business
+   logic endpoints, and would be configured to validate tokens issued by the separate Authorization
+   Server.
 
-This separation reflects a more robust decoupled architecture, where the Resource Server itself contains no user interface elements.
+This separation reflects a more robust decoupled architecture, where the Resource Server itself
+contains no user interface elements.
 
 ## License
 
