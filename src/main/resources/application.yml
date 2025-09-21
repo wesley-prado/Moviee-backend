@@ -4,6 +4,9 @@ spring:
     name: moviee
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+springdoc:
+  swagger-ui:
+    path: /api-docs
 ---
 spring:
   config:
