@@ -24,17 +24,17 @@ public class OpenApiConfig {
   public OpenAPI customOpenAPI() {
     return new OpenAPI().components( new Components().addExamples(
       "userCollectionExample", createExample(
-        "Exemplo de uma lista de usuários",
+        "Example of a user collection response",
         "classpath:openapi/examples/user/CollectionExample.json"
       )
     ).addExamples(
       "accessDeniedExample", createExample(
-        "Exemplo de resposta de acesso negado",
+        "Example of an access denied error response",
         "classpath:openapi/examples/error/AccessDeniedExample.json"
       )
     ).addExamples(
       "internalServerErrorExample", createExample(
-        "Exemplo de resposta de erro interno do servidor",
+        "Example of an internal server error response",
         "classpath:openapi/examples/error/InternalServerErrorExample.json"
       )
     ) );
