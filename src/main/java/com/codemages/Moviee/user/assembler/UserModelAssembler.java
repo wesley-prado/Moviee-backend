@@ -41,7 +41,7 @@ public class UserModelAssembler implements
     UserResponseDTO dto
   ) {
     Link self = WebMvcLinkBuilder.linkTo( WebMvcLinkBuilder
-        .methodOn( PrivateUserController.class ).getUserById( dto.id() ) )
+        .methodOn( PrivateUserController.class ).getUser( dto.id() ) )
       .withSelfRel();
 
     return EntityModel.of( dto, self );
