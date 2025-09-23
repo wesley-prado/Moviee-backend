@@ -12,7 +12,8 @@
 
 # DOCS
 *.md
-docs
+doc
+*.drawio
 
 # SYSTEM FILES
 htmlReport
