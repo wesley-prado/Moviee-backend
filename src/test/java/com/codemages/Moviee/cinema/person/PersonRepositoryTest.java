@@ -43,10 +43,10 @@ public class PersonRepositoryTest extends IntegrationTestContainerSingleton {
     Person foundPerson = personRepository.findById( savedPerson.getId() ).orElseThrow();
 
     assertThat( foundPerson ).isNotNull();
-    assertThat( foundPerson.getArtisticName() ).isEqualTo( "Tom Hanks" );
-    assertThat( foundPerson.getRealName() ).isEqualTo( "Thomas Jeffrey Hanks" );
-    assertThat( foundPerson.getDob() ).isEqualTo( dateOfBirth );
-    assertThat( foundPerson.getAbout() ).isEqualTo( "Um ator e cineasta americano." );
+    assertThat( foundPerson.getArtisticName() ).isEqualTo( newPerson.getArtisticName() );
+    assertThat( foundPerson.getRealName() ).isEqualTo( newPerson.getRealName() );
+    assertThat( foundPerson.getDob() ).isEqualTo( newPerson.getDob() );
+    assertThat( foundPerson.getAbout() ).isEqualTo( newPerson.getAbout() );
   }
 
   @Test
