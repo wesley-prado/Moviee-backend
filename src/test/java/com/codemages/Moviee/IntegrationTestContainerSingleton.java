@@ -32,7 +32,7 @@ public abstract class IntegrationTestContainerSingleton {
     registry.add( "spring.datasource.url", CONTAINER::getJdbcUrl );
     registry.add( "spring.datasource.username", CONTAINER::getUsername );
     registry.add( "spring.datasource.password", CONTAINER::getPassword );
-    registry.add( "spring.jpa.hibernate.ddl-auto", () -> "update" );
+    registry.add( "spring.jpa.hibernate.ddl-auto", () -> "validate" );
     registry.add( "moviee.security.remember-me-key", () -> "remember-me-key" );
     registry.add( "moviee.security.issuer-uri", () -> "https://moviee.test.com/" );
   }
