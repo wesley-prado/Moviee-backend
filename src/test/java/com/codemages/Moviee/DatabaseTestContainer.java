@@ -1,15 +1,26 @@
 package com.codemages.Moviee;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public abstract class IntegrationTestContainer {
+@SpringBootTest
+@Testcontainers
+@AutoConfigureTestEntityManager
+public abstract class DatabaseTestContainer {
+  @Container
   private static final PostgreSQLContainer<?> CONTAINER = new PostgreSQLContainer<>(
     "postgres:latest" ).withEnv( "POSTGRES_INITDB_ARGS", "-d" );
+
+  @Autowired
+  protected TestEntityManager entityManager;
 
   private static boolean containerStarted = false;
 

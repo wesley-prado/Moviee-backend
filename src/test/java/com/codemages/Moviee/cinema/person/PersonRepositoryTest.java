@@ -15,7 +15,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 
 public class PersonRepositoryTest extends DatabaseTestContainer {
-
   @Autowired
   private PersonRepository personRepository;
 
@@ -54,8 +53,7 @@ public class PersonRepositoryTest extends DatabaseTestContainer {
       .dob( ZonedDateTime.now() )
       .build();
 
-    assertThatThrownBy( () -> {
-      entityManager.persistAndFlush( invalidPerson );
-    } ).isInstanceOf( ConstraintViolationException.class );
+    assertThatThrownBy( () -> entityManager.persistAndFlush( invalidPerson ) ).isInstanceOf(
+      ConstraintViolationException.class );
   }
 }
