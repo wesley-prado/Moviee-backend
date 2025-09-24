@@ -1,13 +1,11 @@
 package com.codemages.Moviee.cinema.person;
 
-import com.codemages.Moviee.IntegrationTestContainerSingleton;
+import com.codemages.Moviee.DatabaseTestContainer;
 import jakarta.transaction.Transactional;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -15,11 +13,8 @@ import java.time.ZonedDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-@AutoConfigureTestEntityManager
-public class PersonRepositoryTest extends IntegrationTestContainerSingleton {
 
-  @Autowired
-  private TestEntityManager entityManager;
+public class PersonRepositoryTest extends DatabaseTestContainer {
 
   @Autowired
   private PersonRepository personRepository;

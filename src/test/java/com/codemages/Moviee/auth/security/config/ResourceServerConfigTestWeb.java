@@ -1,6 +1,6 @@
 package com.codemages.Moviee.auth.security.config;
 
-import com.codemages.Moviee.IntegrationTestContainerSingleton;
+import com.codemages.Moviee.WebIntegrationTestContainer;
 import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +18,7 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ResourceServerConfigTest extends IntegrationTestContainerSingleton {
+public class ResourceServerConfigTestWeb extends WebIntegrationTestContainer {
   @Rule
   public Timeout timeout = new Timeout( 5, TimeUnit.SECONDS );
 

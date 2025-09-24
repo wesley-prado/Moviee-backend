@@ -5,9 +5,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public abstract class IntegrationTestContainerSingleton {
+@Testcontainers
+public abstract class WebIntegrationTestContainer {
+  @Container
   private static final PostgreSQLContainer<?> CONTAINER = new PostgreSQLContainer<>(
     "postgres:latest" ).withEnv( "POSTGRES_INITDB_ARGS", "-d" );
 

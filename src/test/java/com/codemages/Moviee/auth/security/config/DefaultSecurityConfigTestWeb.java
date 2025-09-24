@@ -1,6 +1,6 @@
 package com.codemages.Moviee.auth.security.config;
 
-import com.codemages.Moviee.IntegrationTestContainerSingleton;
+import com.codemages.Moviee.WebIntegrationTestContainer;
 import com.codemages.Moviee.auth.security.config.constants.ApiPaths;
 import com.codemages.Moviee.auth.security.password.PasswordGenerator;
 import com.codemages.Moviee.user.User;
@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class DefaultSecurityConfigTest extends IntegrationTestContainerSingleton {
+public class DefaultSecurityConfigTestWeb extends WebIntegrationTestContainer {
   @Rule
   public Timeout timeout = new Timeout( 5, TimeUnit.SECONDS );
 
