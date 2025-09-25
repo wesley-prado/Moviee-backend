@@ -18,7 +18,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder(builderClassName = "MovieBuilder", toBuilder = true)
+@Builder(builderClassName = "MovieBuilder")
 public class Movie {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
