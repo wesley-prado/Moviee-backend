@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Range;
 
 import java.util.List;
 
+//TODO: Corrigir a forma de receber o diretor, elenco e escritores (credits)
 @NotNull(message = "Os dados do filme são obrigatórios.")
 public record MovieCreationDTO(
   @NotBlank(message = "O título é obrigatório.")

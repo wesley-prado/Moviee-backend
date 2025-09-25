@@ -8,7 +8,9 @@ import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "movies", schema = "cinema")
@@ -16,7 +18,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder(builderClassName = "MovieBuilder", toBuilder = true)
 public class Movie {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,21 +50,34 @@ public class Movie {
   @Column(nullable = false)
   private int durationInMinutes;
 
-  @Column(nullable = false)
-  private String director;
+  @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<MovieCredit> credits = new HashSet<>();
 
-  @ElementCollection
-  @CollectionTable(name = "movie_cast",
-    joinColumns = @JoinColumn(name = "movie_id"),
-    schema = "cinema")
-  @Column(name = "cast_member")
-  @Builder.Default
-  private List<String> castMembers = new ArrayList<>();
+  private void setCredits(Set<MovieCredit> credits) {
+    this.credits = credits;
+  }
 
-  @ElementCollection
-  @CollectionTable(name = "movie_writers",
-    joinColumns = @JoinColumn(name = "movie_id"),
-    schema = "cinema")
-  @Builder.Default
-  private List<String> writers = new ArrayList<>();
+  public void addCredit(MovieCredit credit) {
+    credits.add( credit );
+    credit.setMovie( this );
+  }
+
+  public void removeCredit(MovieCredit credit) {
+    credits.remove( credit );
+    credit.setMovie( null );
+  }
+
+  public static class MovieBuilder {
+    @Singular
+    private Set<MovieCredit> credits = new HashSet<>();
+
+    private MovieBuilder credits(Set<MovieCredit> credits) {
+      return this;
+    }
+
+    public MovieBuilder credit(MovieCredit credit) {
+      this.credits.add( credit );
+      return this;
+    }
+  }
 }
