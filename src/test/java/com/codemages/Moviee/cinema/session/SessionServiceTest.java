@@ -1,5 +1,6 @@
 package com.codemages.Moviee.cinema.session;
 
+import com.codemages.Moviee.cinema.factory.CinemaFactory;
 import com.codemages.Moviee.cinema.movie.MovieRepository;
 import com.codemages.Moviee.cinema.room.RoomRepository;
 import com.codemages.Moviee.cinema.session.dto.SessionResponseDTO;
@@ -11,7 +12,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.Optional;
 
-import static com.codemages.Moviee.cinema.factory.CinemaFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -38,9 +38,9 @@ public class SessionServiceTest {
   @Test
   @DisplayName("Deve retornar um DTO quando encontrar um registro de Session")
   void findById_WhenRecordExists_ShouldReturnDTO() {
-    var room = createRoom();
-    var movie = createMovie();
-    var session = createSession( movie, room );
+    var room = CinemaFactory.createRoomMock();
+    var movie = CinemaFactory.createMovieMock();
+    var session = CinemaFactory.createSessionMock( movie, room );
 
     when( sessionRepository.findById( 1L ) ).thenReturn( Optional.of( session ) );
     when( movieRepository.findById( 1L ) ).thenReturn( Optional.of( movie ) );
@@ -76,7 +76,7 @@ public class SessionServiceTest {
   @Test
   @DisplayName("Deve retornar uma exception quando o Id do filme nao for encontrado")
   void createSession_WhenMovieIdDoesNotExist_ShouldThrowException() {
-    var room = createRoom();
+    var room = CinemaFactory.createRoomMock();
     when( roomRepository.findById( 1L ) ).thenReturn( Optional.of( room ) );
     when( movieRepository.findById( 1L ) ).thenReturn( Optional.empty() );
 
