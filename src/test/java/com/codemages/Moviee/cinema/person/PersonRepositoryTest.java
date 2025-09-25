@@ -1,50 +1,75 @@
 package com.codemages.Moviee.cinema.person;
 
 import com.codemages.Moviee.DatabaseTestContainer;
-import jakarta.transaction.Transactional;
+import com.codemages.Moviee.cinema.factory.CinemaFactory;
+import com.codemages.Moviee.cinema.movie.Movie;
+import com.codemages.Moviee.cinema.movie.MovieCredit;
+import com.codemages.Moviee.cinema.movie.constant.MovieRole;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-
-public class PersonRepositoryTest extends DatabaseTestContainer {
+/**
+ * Integration test focused on the persistence layer for the Person entity.
+ * Validates entity mapping, attributes, constraints, and relationships.
+ * Uses @SpringBootTest (inherited), Testcontainers, and TestEntityManager.
+ */
+class PersonRepositoryTest extends DatabaseTestContainer {
   @Autowired
   private PersonRepository personRepository;
 
   @Test
-  @DisplayName("Should save and retrieve a person with all fields correctly mapped")
+  @DisplayName("Should save and retrieve Person with direct attributes")
   @Transactional
-  void shouldSaveAndRetrievePerson() {
-    ZonedDateTime dateOfBirth = ZonedDateTime.of( 1956, 7, 9, 0, 0, 0, 0, ZoneOffset.UTC );
-    Person newPerson = Person.builder()
-      .artisticName( "Tom Hanks" )
-      .realName( "Thomas Jeffrey Hanks" )
-      .dob( dateOfBirth )
-      .about( "An American actor and filmmaker." )
-      .build();
+  void shouldSaveAndRetrievePersonWithDirectAttributes() {
+    Person personToSave = CinemaFactory.createPersonInstance();
 
-    Person savedPerson = entityManager.persistAndFlush( newPerson );
-
+    Person savedPerson = entityManager.persistAndFlush( personToSave );
     entityManager.clear();
-
     Person foundPerson = personRepository.findById( savedPerson.getId() ).orElseThrow();
 
     assertThat( foundPerson ).isNotNull();
-    assertThat( foundPerson.getArtisticName() ).isEqualTo( newPerson.getArtisticName() );
-    assertThat( foundPerson.getRealName() ).isEqualTo( newPerson.getRealName() );
-    assertThat( foundPerson.getDob() ).isEqualTo( newPerson.getDob() );
-    assertThat( foundPerson.getAbout() ).isEqualTo( newPerson.getAbout() );
+    assertThat( foundPerson.getArtisticName() ).isEqualTo( personToSave.getArtisticName() );
+    assertThat( foundPerson.getRealName() ).isEqualTo( personToSave.getRealName() );
+    assertThat( foundPerson.getDob() ).isEqualTo( personToSave.getDob() );
+    assertThat( foundPerson.getAbout() ).isEqualTo( personToSave.getAbout() );
   }
 
   @Test
-  @DisplayName("Should fail when saving a person with null real name")
+  @DisplayName("Should correctly persist Person-MovieCredit relationship")
+  @Transactional
+  void shouldCorrectlyPersistMovieCreditRelationship() {
+    Movie movie = entityManager.persist( CinemaFactory.createMovieInstance() );
+    Person person = entityManager.persist( CinemaFactory.createPersonInstance() );
+
+    MovieCredit credit = MovieCredit.builder()
+      .role( MovieRole.ACTOR )
+      .build();
+
+    person.addCredit( credit );
+    movie.addCredit( credit );
+
+    entityManager.flush();
+    entityManager.clear();
+
+    Person foundPerson = personRepository.findById( person.getId() ).orElseThrow();
+
+    assertThat( foundPerson.getCredits() ).hasSize( 1 );
+
+    MovieCredit foundCredit = foundPerson.getCredits().iterator().next();
+    assertThat( foundCredit.getRole() ).isEqualTo( MovieRole.ACTOR );
+    assertThat( foundCredit.getMovie().getId() ).isEqualTo( movie.getId() );
+  }
+
+  @Test
+  @DisplayName("Should fail when saving a Person with null real name")
   @Transactional
   void shouldFailWhenSavingPersonWithNullRealName() {
     Person invalidPerson = Person.builder()
