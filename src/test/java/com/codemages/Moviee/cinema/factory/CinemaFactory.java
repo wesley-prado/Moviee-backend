@@ -18,7 +18,7 @@ public class CinemaFactory {
   private static final String ROOM_CLASS_NAME = Room.class.getTypeName();
   private static final String SESSION_CLASS_NAME = Session.class.getTypeName();
 
-  public static Movie createMovie() {
+  public static Movie createMovieInstance() {
     return Movie.builder()
       .title( "Forrest Gump" )
       .year( 1994 )
@@ -31,7 +31,7 @@ public class CinemaFactory {
     return MovieCredit.builder().role( role ).build();
   }
 
-  public static Person createPerson() {
+  public static Person createPersonInstance() {
     return Person.builder()
       .artisticName( "Tom Hanks" )
       .realName( "Thomas Jeffrey Hanks" )
