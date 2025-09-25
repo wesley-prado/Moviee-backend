@@ -51,9 +51,6 @@ public class MovieService {
       .description( dto.description() )
       .rating( dto.rating() )
       .durationInMinutes( dto.durationInMinutes() )
-      .director( dto.director() )
-      .castMembers( List.of( dto.cast() ) )
-      .writers( List.of( dto.writers() ) )
       .build();
   }
 
