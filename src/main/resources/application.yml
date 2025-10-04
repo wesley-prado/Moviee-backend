@@ -31,4 +31,6 @@ server:
   port: 8080
 logging:
   level:
-    com.codemages: debug
+    com.codemages: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.oauth2: TRACE
