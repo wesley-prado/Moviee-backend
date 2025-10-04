@@ -10,6 +10,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.RememberMeConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -29,7 +30,11 @@ public class ResourceServerConfig {
       .securityMatchers( matchers -> matchers
         .requestMatchers( ApiPaths.PRIVATE_RESOURCES )
         .requestMatchers( ApiPaths.EXPLORER_RESOURCES )
-      )
+      );
+
+    http.sessionManagement( session -> session.sessionCreationPolicy( SessionCreationPolicy.STATELESS ) );
+
+    http
       .cors( withDefaults() )
       .csrf( AbstractHttpConfigurer::disable )
       .authorizeHttpRequests( auth -> auth
@@ -37,9 +42,7 @@ public class ResourceServerConfig {
         .requestMatchers( ApiPaths.EXPLORER_RESOURCES ).hasAuthority( Role.ADMIN.name() )
         .anyRequest().authenticated() )
       .oauth2ResourceServer( oauth2 -> oauth2.jwt(
-        jwt -> jwt.jwtAuthenticationConverter( jwtAuthenticationConverter() ) ) )
-      .rememberMe( rememberMeCustomizer );
-
+        jwt -> jwt.jwtAuthenticationConverter( jwtAuthenticationConverter() ) ) );
     return http.build();
   }
 
