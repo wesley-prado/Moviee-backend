@@ -41,3 +41,6 @@ build/
 
 ## Test coverage reports
 htmlReport/
+
+# Backup files
+*.bkp
