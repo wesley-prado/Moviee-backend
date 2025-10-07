@@ -1,9 +1,10 @@
 package com.codemages.Moviee.cinema.factory;
 
-import com.codemages.Moviee.cinema.movie.Movie;
-import com.codemages.Moviee.cinema.movie.MovieCredit;
-import com.codemages.Moviee.cinema.movie.constant.Genre;
+import com.codemages.Moviee.cinema.movie.constant.GenreEnum;
 import com.codemages.Moviee.cinema.movie.constant.MovieRole;
+import com.codemages.Moviee.cinema.movie.entity.Genre;
+import com.codemages.Moviee.cinema.movie.entity.Movie;
+import com.codemages.Moviee.cinema.movie.entity.MovieCredit;
 import com.codemages.Moviee.cinema.movie.test.util.IdGenerator;
 import com.codemages.Moviee.cinema.person.Person;
 import com.codemages.Moviee.cinema.room.Room;
@@ -11,7 +12,6 @@ import com.codemages.Moviee.cinema.session.Session;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.util.List;
 
 public class CinemaFactory {
   private static final String MOVIE_CLASS_NAME = Movie.class.getTypeName();
@@ -46,7 +46,8 @@ public class CinemaFactory {
       .title( "Inception" )
       .durationInMinutes( 148 )
       .description( "A mind-bending SCI-FI" )
-      .genres( List.of( Genre.SCI_FI, Genre.ACTION, Genre.DRAMA ) )
+      .genre( new Genre( 1L, GenreEnum.ACTION ) )
+      .genre( new Genre( 2L, GenreEnum.DRAMA ) )
       .rating( 8 )
       .build();
   }
