@@ -95,4 +95,41 @@ public class PublicGenreControllerTest {
         Matchers.equalTo( genre.description() )
       ) );
   }
+
+  @ParameterizedTest(name = "Accessing as {0}")
+  @CsvSource({
+    "USER", "MODERATOR", "ADMIN"
+  })
+  @DisplayName(
+    "Should return status 200 and a genre when any type of user tries to get a genre by id")
+  void findGenreById_AnyTypeOfUser_ShouldReturnOk(String role) throws Exception {
+    GenreResponseDTO genre = CinemaFactory.createGenreResponseDTO();
+    when( genreService.findById( genre.id() ) ).thenReturn( genre );
+
+    mvc.perform( get(
+        BASE_URL + "/{id}",
+        genre.id()
+      ).with( SecurityMockMvcRequestPostProcessors.user( role ).roles( role ) ) )
+      .andExpect( status().isOk() )
+      .andExpect( content().contentType( "application/hal+json" ) )
+      .andExpect( jsonPath( "$.id", Matchers.equalTo( genre.id().intValue() ) ) )
+      .andExpect( jsonPath( "$.name", Matchers.equalTo( genre.name() ) ) )
+      .andExpect( jsonPath( "$.description", Matchers.equalTo( genre.description() ) ) );
+  }
+
+  @Test
+  @DisplayName(
+    "Should return status 200 and a genre when an anonymous user tries to get a genre by id")
+  @WithAnonymousUser
+  void findGenreById_AnonymousUser_ShouldReturnOk() throws Exception {
+    GenreResponseDTO genre = CinemaFactory.createGenreResponseDTO();
+    when( genreService.findById( genre.id() ) ).thenReturn( genre );
+
+    mvc.perform( get( BASE_URL + "/{id}", genre.id() ) )
+      .andExpect( status().isOk() )
+      .andExpect( content().contentType( "application/hal+json" ) )
+      .andExpect( jsonPath( "$.id", Matchers.equalTo( genre.id().intValue() ) ) )
+      .andExpect( jsonPath( "$.name", Matchers.equalTo( genre.name() ) ) )
+      .andExpect( jsonPath( "$.description", Matchers.equalTo( genre.description() ) ) );
+  }
 }
