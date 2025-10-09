@@ -1,11 +1,11 @@
 package com.codemages.Moviee.auth.security.factory;
 
-import com.codemages.Moviee.cinema.movie.Movie;
-import com.codemages.Moviee.cinema.movie.constant.Genre;
+import com.codemages.Moviee.cinema.movie.constant.GenreEnum;
 import com.codemages.Moviee.cinema.movie.dto.GenreResponseDTO;
-import com.codemages.Moviee.cinema.movie.dto.MovieResponseDTO;
 import com.codemages.Moviee.cinema.movie.dto.MovieCreationDTO;
-import com.codemages.Moviee.cinema.movie.test.util.IdGenerator;
+import com.codemages.Moviee.cinema.movie.dto.MovieResponseDTO;
+import com.codemages.Moviee.cinema.movie.entity.Movie;
+import com.codemages.Moviee.test.util.IdGenerator;
 
 import java.util.List;
 
@@ -22,8 +22,8 @@ public class MovieFactory {
       .title( "Inception" )
       .year( 2010 )
       .genres( List.of(
-        new GenreResponseDTO( Genre.SCI_FI ),
-        new GenreResponseDTO( Genre.ACTION )
+        new GenreResponseDTO( 1L, GenreEnum.SCI_FI.name(), "A tiny description" ),
+        new GenreResponseDTO( 2L, GenreEnum.ACTION.name(), "A tiny description" )
       ) )
       .description( "A mind-bending thriller about dream invasion." )
       .build();
@@ -40,15 +40,13 @@ public class MovieFactory {
   public static class Builder {
     private String title = "Inception";
     private Integer year = 2010;
-    private List<Genre> genres = List.of( Genre.SCI_FI, Genre.ACTION );
+    private List<GenreEnum> genreEnums = List.of( GenreEnum.SCI_FI, GenreEnum.ACTION );
     private String description = "A mind-bending thriller about dream invasion.";
     private int rating = 8;
     private int durationInMinutes = 148;
     private String director = "Christopher Nolan";
     private String[] cast = new String[]{
-      "Leonardo DiCaprio",
-      "Joseph Gordon-Levitt",
-      "Ellen Page"
+      "Leonardo DiCaprio", "Joseph Gordon-Levitt", "Ellen Page"
     };
     private String[] writers = new String[]{ "Christopher Nolan" };
 
@@ -62,8 +60,8 @@ public class MovieFactory {
       return this;
     }
 
-    public Builder withGenres(List<Genre> genres) {
-      this.genres = genres;
+    public Builder withGenres(List<GenreEnum> genreEnums) {
+      this.genreEnums = genreEnums;
       return this;
     }
 
@@ -101,7 +99,7 @@ public class MovieFactory {
       return new MovieCreationDTO(
         title,
         year,
-        genres,
+        genreEnums,
         description,
         rating,
         durationInMinutes,
