@@ -33,7 +33,7 @@ public class MovieModelAssembler
       WebMvcLinkBuilder.methodOn( PublicMovieController.class ).getAllMovies()
     ).withRel( "movies" );
     Link genresLink = WebMvcLinkBuilder.linkTo(
-      WebMvcLinkBuilder.methodOn( PublicGenreController.class ).getGenres()
+      WebMvcLinkBuilder.methodOn( PublicGenreController.class ).findAllGenres()
     ).withRel( "genres" );
 
     return CollectionModel.of(
