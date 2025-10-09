@@ -1,6 +1,6 @@
 package com.codemages.Moviee.cinema.session;
 
-import com.codemages.Moviee.cinema.movie.Movie;
+import com.codemages.Moviee.cinema.movie.entity.Movie;
 import com.codemages.Moviee.cinema.room.Room;
 import com.codemages.Moviee.cinema.session.constant.SessionStatus;
 import jakarta.persistence.*;
