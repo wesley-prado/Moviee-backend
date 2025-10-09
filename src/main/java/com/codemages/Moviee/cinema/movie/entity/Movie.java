@@ -1,15 +1,12 @@
-package com.codemages.Moviee.cinema.movie;
+package com.codemages.Moviee.cinema.movie.entity;
 
-import com.codemages.Moviee.cinema.movie.constant.Genre;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,13 +28,13 @@ public class Movie {
   @Range(min = 1878)
   private Integer year;
 
-  @ElementCollection(targetClass = Genre.class)
-  @CollectionTable(name = "movie_genres",
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinTable(name = "movie_genres",
+    schema = "cinema",
     joinColumns = @JoinColumn(name = "movie_id"),
-    schema = "cinema")
-  @Enumerated(EnumType.STRING)
+    inverseJoinColumns = @JoinColumn(name = "genre_id"))
   @Builder.Default
-  private List<Genre> genres = new ArrayList<>();
+  private Set<Genre> genres = new HashSet<>();
 
   @Column(columnDefinition = "TEXT")
   private String description;
@@ -52,6 +49,14 @@ public class Movie {
 
   @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<MovieCredit> credits = new HashSet<>();
+
+  private void setGenres(Set<Genre> genres) {
+    this.genres = genres;
+  }
+
+  public void addGenre(Genre genre) {
+    this.genres.add( genre );
+  }
 
   private void setCredits(Set<MovieCredit> credits) {
     this.credits = credits;
@@ -69,7 +74,8 @@ public class Movie {
 
   public static class MovieBuilder {
     @Singular
-    private Set<MovieCredit> credits = new HashSet<>();
+    private final Set<MovieCredit> credits = new HashSet<>();
+    private final Set<Genre> genres = new HashSet<>();
 
     private MovieBuilder credits(Set<MovieCredit> credits) {
       return this;
@@ -77,6 +83,13 @@ public class Movie {
 
     public MovieBuilder credit(MovieCredit credit) {
       this.credits.add( credit );
+      return this;
+    }
+
+    private MovieBuilder genres(Set<Genre> genres) {return this;}
+
+    public MovieBuilder genre(Genre genre) {
+      this.genres.add( genre );
       return this;
     }
   }
