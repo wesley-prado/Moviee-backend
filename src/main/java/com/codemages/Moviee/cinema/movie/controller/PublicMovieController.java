@@ -1,8 +1,8 @@
 package com.codemages.Moviee.cinema.movie.controller;
 
-import com.codemages.Moviee.cinema.movie.MovieService;
 import com.codemages.Moviee.cinema.movie.assembler.MovieModelAssembler;
 import com.codemages.Moviee.cinema.movie.dto.MovieResponseDTO;
+import com.codemages.Moviee.cinema.movie.service.MovieService;
 import com.codemages.Moviee.core.constant.ControllerConstant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
@@ -19,8 +19,8 @@ import java.util.List;
 @RequestMapping(ControllerConstant.PUBLIC_API_BASE + "/v1/movies")
 @RequiredArgsConstructor
 public class PublicMovieController {
-  private final MovieService movieService;
   private static final MovieModelAssembler movieModelAssembler = new MovieModelAssembler();
+  private final MovieService movieService;
 
   @GetMapping
   public ResponseEntity<CollectionModel<EntityModel<MovieResponseDTO>>> getAllMovies() {
