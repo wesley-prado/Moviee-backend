@@ -2,13 +2,14 @@ package com.codemages.Moviee.cinema.factory;
 
 import com.codemages.Moviee.cinema.movie.constant.GenreEnum;
 import com.codemages.Moviee.cinema.movie.constant.MovieRole;
+import com.codemages.Moviee.cinema.movie.dto.GenreResponseDTO;
 import com.codemages.Moviee.cinema.movie.entity.Genre;
 import com.codemages.Moviee.cinema.movie.entity.Movie;
 import com.codemages.Moviee.cinema.movie.entity.MovieCredit;
-import com.codemages.Moviee.cinema.movie.test.util.IdGenerator;
 import com.codemages.Moviee.cinema.person.Person;
 import com.codemages.Moviee.cinema.room.Room;
 import com.codemages.Moviee.cinema.session.Session;
+import com.codemages.Moviee.test.util.IdGenerator;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -17,6 +18,7 @@ public class CinemaFactory {
   private static final String MOVIE_CLASS_NAME = Movie.class.getTypeName();
   private static final String ROOM_CLASS_NAME = Room.class.getTypeName();
   private static final String SESSION_CLASS_NAME = Session.class.getTypeName();
+  private static final String GENRE_CLASS_NAME = Genre.class.getTypeName();
 
   public static Movie createMovieInstance() {
     return Movie.builder()
@@ -67,5 +69,13 @@ public class CinemaFactory {
       .startTime( now )
       .endTime( twoHoursAhead )
       .build();
+  }
+
+  public static GenreResponseDTO createGenreResponseDTO() {
+    return new GenreResponseDTO(
+      IdGenerator.nextId( GENRE_CLASS_NAME ),
+      "ACTION",
+      "Action films usually include high energy, big-budget physical stunts and chases."
+    );
   }
 }
