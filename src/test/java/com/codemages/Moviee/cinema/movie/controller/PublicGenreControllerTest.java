@@ -41,7 +41,7 @@ public class PublicGenreControllerTest {
   @CsvSource({
     "USER", "MODERATOR", "ADMIN"
   })
-  @DisplayName("Should return 200 when any type of user try to get all genres")
+  @DisplayName("Should return 200 and a list of genres when any type of user try to get all genres")
   void getAllGenres_AnyTypeOfUser_ShouldReturnOk(String role) throws Exception {
     List<GenreResponseDTO> genres = List.of(
       CinemaFactory.createGenreResponseDTO(),
@@ -69,7 +69,7 @@ public class PublicGenreControllerTest {
   }
 
   @Test
-  @DisplayName("Should return 200 when any type of user try to get all genres")
+  @DisplayName("Should return 200 and a list of genres when any type of user try to get all genres")
   @WithAnonymousUser
   void getAllGenres_AnonymousUser_ShouldReturnOk() throws Exception {
     List<GenreResponseDTO> genres = List.of(
