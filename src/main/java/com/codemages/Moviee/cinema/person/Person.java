@@ -1,7 +1,7 @@
 package com.codemages.Moviee.cinema.person;
 
-import com.codemages.Moviee.cinema.movie.Movie;
-import com.codemages.Moviee.cinema.movie.MovieCredit;
+import com.codemages.Moviee.cinema.movie.entity.Movie;
+import com.codemages.Moviee.cinema.movie.entity.MovieCredit;
 import jakarta.persistence.*;
 import lombok.*;
 
