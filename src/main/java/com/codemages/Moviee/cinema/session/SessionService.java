@@ -1,7 +1,7 @@
 package com.codemages.Moviee.cinema.session;
 
-import com.codemages.Moviee.cinema.movie.MovieRepository;
 import com.codemages.Moviee.cinema.movie.exception.MovieNotFoundException;
+import com.codemages.Moviee.cinema.movie.repository.MovieRepository;
 import com.codemages.Moviee.cinema.room.RoomRepository;
 import com.codemages.Moviee.cinema.room.exception.RoomNotFoundException;
 import com.codemages.Moviee.cinema.session.dto.SessionCreationDTO;
@@ -22,10 +22,14 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class SessionService {
+  private static final ZoneId ZONE_ID = ZoneId.of( "America/Sao_Paulo" );
   private final SessionRepository sessionRepository;
   private final MovieRepository movieRepository;
   private final RoomRepository roomRepository;
-  private static final ZoneId ZONE_ID = ZoneId.of( "America/Sao_Paulo" );
+
+  private static ZonedDateTime convertToLocalTime(ZonedDateTime dateTime) {
+    return dateTime.withZoneSameInstant( ZONE_ID );
+  }
 
   @Transactional(readOnly = true)
   public List<SessionResponseDTO> findAll() {
@@ -87,10 +91,6 @@ public class SessionService {
       .startTime( SessionService.convertToLocalTime( session.getStartTime() ) )
       .endTime( SessionService.convertToLocalTime( session.getEndTime() ) )
       .build();
-  }
-
-  private static ZonedDateTime convertToLocalTime(ZonedDateTime dateTime) {
-    return dateTime.withZoneSameInstant( ZONE_ID );
   }
 
   private long getTimeDiffInMinutes(ZonedDateTime start, ZonedDateTime end) {
