@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -55,7 +56,7 @@ public class PublicGenreControllerTest {
     mvc.perform( get( BASE_URL ).with( SecurityMockMvcRequestPostProcessors.user( role )
         .roles( role ) ) )
       .andExpect( status().isOk() )
-      .andExpect( content().contentType( "application/hal+json" ) )
+      .andExpect( content().contentType( MediaTypes.HAL_JSON_VALUE ) )
       .andExpect( jsonPath( "$._embedded.genres", Matchers.hasSize( 3 ) ) )
       .andExpect( jsonPath(
         "$._embedded.genres[0].id",
@@ -65,7 +66,8 @@ public class PublicGenreControllerTest {
       .andExpect( jsonPath(
         "$._embedded.genres[1].description",
         Matchers.equalTo( genre.description() )
-      ) );
+      ) )
+      .andExpect( jsonPath( "$._links.genres.href", Matchers.notNullValue() ) );
   }
 
   @Test
@@ -83,7 +85,7 @@ public class PublicGenreControllerTest {
 
     mvc.perform( get( BASE_URL ) )
       .andExpect( status().isOk() )
-      .andExpect( content().contentType( "application/hal+json" ) )
+      .andExpect( content().contentType( MediaTypes.HAL_JSON_VALUE ) )
       .andExpect( jsonPath( "$._embedded.genres", Matchers.hasSize( 3 ) ) )
       .andExpect( jsonPath(
         "$._embedded.genres[0].id",
@@ -109,9 +111,10 @@ public class PublicGenreControllerTest {
     mvc.perform( get(
         BASE_URL + "/{id}",
         genre.id()
-      ).with( SecurityMockMvcRequestPostProcessors.user( role ).roles( role ) ) )
+      ).with( SecurityMockMvcRequestPostProcessors.user( role )
+        .roles( role ) ) )
       .andExpect( status().isOk() )
-      .andExpect( content().contentType( "application/hal+json" ) )
+      .andExpect( content().contentType( MediaTypes.HAL_JSON_VALUE ) )
       .andExpect( jsonPath( "$.id", Matchers.equalTo( genre.id().intValue() ) ) )
       .andExpect( jsonPath( "$.name", Matchers.equalTo( genre.name() ) ) )
       .andExpect( jsonPath( "$.description", Matchers.equalTo( genre.description() ) ) );
@@ -127,7 +130,7 @@ public class PublicGenreControllerTest {
 
     mvc.perform( get( BASE_URL + "/{id}", genre.id() ) )
       .andExpect( status().isOk() )
-      .andExpect( content().contentType( "application/hal+json" ) )
+      .andExpect( content().contentType( MediaTypes.HAL_JSON_VALUE ) )
       .andExpect( jsonPath( "$.id", Matchers.equalTo( genre.id().intValue() ) ) )
       .andExpect( jsonPath( "$.name", Matchers.equalTo( genre.name() ) ) )
       .andExpect( jsonPath( "$.description", Matchers.equalTo( genre.description() ) ) );
