@@ -1,9 +1,9 @@
 package com.codemages.Moviee.cinema.movie.controller;
 
-import com.codemages.Moviee.cinema.movie.MovieService;
 import com.codemages.Moviee.cinema.movie.assembler.MovieModelAssembler;
 import com.codemages.Moviee.cinema.movie.dto.MovieCreationDTO;
 import com.codemages.Moviee.cinema.movie.dto.MovieResponseDTO;
+import com.codemages.Moviee.cinema.movie.service.MovieService;
 import com.codemages.Moviee.core.constant.ControllerConstant;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
