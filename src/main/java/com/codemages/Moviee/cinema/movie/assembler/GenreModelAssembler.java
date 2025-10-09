@@ -18,7 +18,7 @@ public class GenreModelAssembler
 
   @Override
   public @NotNull CollectionModel<EntityModel<GenreResponseDTO>> toCollectionModel(@NotNull Iterable<? extends GenreResponseDTO> entities) {
-    var genresLink = linkTo( methodOn( PublicGenreController.class ).getGenres() ).withRel(
+    var genresLink = linkTo( methodOn( PublicGenreController.class ).findAllGenres() ).withRel(
       "genres" );
     var genreModels = StreamSupport.stream( entities.spliterator(), false )
       .map( this::toModel )
