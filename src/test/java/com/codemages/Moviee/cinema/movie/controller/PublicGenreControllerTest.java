@@ -95,7 +95,8 @@ public class PublicGenreControllerTest {
       .andExpect( jsonPath(
         "$._embedded.genres[1].description",
         Matchers.equalTo( genre.description() )
-      ) );
+      ) )
+      .andExpect( jsonPath( "$._links.genres.href", Matchers.notNullValue() ) );
   }
 
   @ParameterizedTest(name = "Accessing as {0}")
@@ -117,7 +118,8 @@ public class PublicGenreControllerTest {
       .andExpect( content().contentType( MediaTypes.HAL_JSON_VALUE ) )
       .andExpect( jsonPath( "$.id", Matchers.equalTo( genre.id().intValue() ) ) )
       .andExpect( jsonPath( "$.name", Matchers.equalTo( genre.name() ) ) )
-      .andExpect( jsonPath( "$.description", Matchers.equalTo( genre.description() ) ) );
+      .andExpect( jsonPath( "$.description", Matchers.equalTo( genre.description() ) ) )
+      .andExpect( jsonPath( "$._links.self.href", Matchers.notNullValue() ) );
   }
 
   @Test
@@ -133,6 +135,7 @@ public class PublicGenreControllerTest {
       .andExpect( content().contentType( MediaTypes.HAL_JSON_VALUE ) )
       .andExpect( jsonPath( "$.id", Matchers.equalTo( genre.id().intValue() ) ) )
       .andExpect( jsonPath( "$.name", Matchers.equalTo( genre.name() ) ) )
-      .andExpect( jsonPath( "$.description", Matchers.equalTo( genre.description() ) ) );
+      .andExpect( jsonPath( "$.description", Matchers.equalTo( genre.description() ) ) )
+      .andExpect( jsonPath( "$._links.self.href", Matchers.notNullValue() ) );
   }
 }
