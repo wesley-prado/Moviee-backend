@@ -1,7 +1,7 @@
 package com.codemages.Moviee.cinema.session;
 
 import com.codemages.Moviee.cinema.factory.CinemaFactory;
-import com.codemages.Moviee.cinema.movie.MovieRepository;
+import com.codemages.Moviee.cinema.movie.repository.MovieRepository;
 import com.codemages.Moviee.cinema.room.RoomRepository;
 import com.codemages.Moviee.cinema.session.dto.SessionResponseDTO;
 import org.junit.jupiter.api.BeforeEach;

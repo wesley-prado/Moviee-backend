@@ -1,7 +1,7 @@
 package com.codemages.Moviee.cinema.movie.controller;
 
-import com.codemages.Moviee.cinema.movie.MovieService;
 import com.codemages.Moviee.cinema.movie.assembler.MovieModelAssembler;
+import com.codemages.Moviee.cinema.movie.service.MovieService;
 import com.codemages.Moviee.core.constant.ControllerConstant;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

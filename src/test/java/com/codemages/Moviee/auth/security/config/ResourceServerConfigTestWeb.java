@@ -1,27 +1,20 @@
 package com.codemages.Moviee.auth.security.config;
 
 import com.codemages.Moviee.WebIntegrationTestContainer;
-import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.rules.Timeout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.concurrent.TimeUnit;
-
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ResourceServerConfigTestWeb extends WebIntegrationTestContainer {
-  @Rule
-  public Timeout timeout = new Timeout( 5, TimeUnit.SECONDS );
-
   private static final String EXPLORER_ENDPOINT = "/explorer/index.html#uri=/";
 
   @Autowired
