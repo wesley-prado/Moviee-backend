@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
+      target: development
     container_name: backend_dev
     ports:
       - "5005:5005"
@@ -18,6 +19,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=dev
       - SERVER_FORWARD_HEADERS_STRATEGY=NATIVE
+      - server.forward-headers-strategy=native
       # Enable remote debugging
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
     env_file:
@@ -27,7 +29,7 @@ services:
     depends_on:
       db_dev:
         condition: service_healthy
-  
+
   ngnix_dev:
     image: 'nginx:latest'
     container_name: ngnix_dev
@@ -41,7 +43,7 @@ services:
       - moviee-network
     depends_on:
       - backend_dev
-  
+
   db_dev:
     image: 'postgres:17-alpine'
     restart: always
