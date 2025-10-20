@@ -24,7 +24,7 @@ spring:
     properties:
       jdb:
         time_zone: UTC
-  
+
   flyway:
     baseline-on-migrate: true
 server:
@@ -32,5 +32,6 @@ server:
 logging:
   level:
     com.codemages: DEBUG
-    org.springframework.security: DEBUG
-    org.springframework.oauth2: TRACE
+    org.springframework:
+      security: DEBUG
+      oauth2: DEBUG
