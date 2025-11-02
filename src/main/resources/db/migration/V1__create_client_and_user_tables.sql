@@ -24,13 +24,25 @@ CREATE TABLE auth.users
 );
 
 ALTER TABLE auth.clients
+    DROP CONSTRAINT IF EXISTS uc_clients_clientid;
+
+ALTER TABLE auth.clients
     ADD CONSTRAINT uc_clients_clientid UNIQUE (client_id);
+
+ALTER TABLE auth.users
+    DROP CONSTRAINT IF EXISTS uc_users_document;
 
 ALTER TABLE auth.users
     ADD CONSTRAINT uc_users_document UNIQUE (document);
 
 ALTER TABLE auth.users
+    DROP CONSTRAINT IF EXISTS uc_users_email;
+
+ALTER TABLE auth.users
     ADD CONSTRAINT uc_users_email UNIQUE (email);
+
+ALTER TABLE auth.users
+    DROP CONSTRAINT IF EXISTS uc_users_username;
 
 ALTER TABLE auth.users
     ADD CONSTRAINT uc_users_username UNIQUE (username);

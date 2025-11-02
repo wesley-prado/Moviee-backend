@@ -5,8 +5,19 @@ CREATE TABLE IF NOT EXISTS cinema.genres
     CONSTRAINT pk_genres PRIMARY KEY (id)
 );
 
-ALTER TABLE cinema.movie_genres
-    RENAME COLUMN genres TO genre_id;
+DO
+$$
+    BEGIN
+        IF EXISTS (SELECT 1
+                   FROM information_schema.columns
+                   WHERE table_name = 'movie_genres'
+                     AND column_name = 'genres'
+                     AND table_schema = 'cinema') THEN
+            ALTER TABLE cinema.movie_genres
+                RENAME COLUMN genres TO genre_id;
+        END IF;
+    END
+$$;
 
 ALTER TABLE cinema.movie_genres
     ALTER COLUMN genre_id SET DATA TYPE BIGINT USING genre_id::BIGINT;
@@ -15,10 +26,19 @@ ALTER TABLE cinema.movies
     DROP COLUMN IF EXISTS genre;
 
 ALTER TABLE cinema.genres
+    DROP CONSTRAINT IF EXISTS uc_genres_name;
+
+ALTER TABLE cinema.genres
     ADD CONSTRAINT uc_genres_name UNIQUE (name);
 
 ALTER TABLE cinema.movie_genres
+    DROP CONSTRAINT IF EXISTS fk_movgen_on_genre;
+
+ALTER TABLE cinema.movie_genres
     ADD CONSTRAINT fk_movgen_on_genre FOREIGN KEY (genre_id) REFERENCES cinema.genres (id);
+
+ALTER TABLE cinema.movie_genres
+    DROP CONSTRAINT IF EXISTS fk_movgen_on_movie;
 
 ALTER TABLE cinema.movie_genres
     ADD CONSTRAINT fk_movgen_on_movie FOREIGN KEY (movie_id) REFERENCES cinema.movies (id);

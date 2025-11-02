@@ -1,4 +1,4 @@
-CREATE TABLE cinema.persons
+CREATE TABLE IF NOT EXISTS cinema.persons
 (
     id            UUID                     NOT NULL,
     artistic_name VARCHAR(255)             NOT NULL,
