@@ -1,0 +1,59 @@
+name: moviee_prod
+
+services:
+  moviee_app:
+    image: wesleypradodev/moviee_app:0.0.6
+    container_name: moviee_app
+    restart: no
+    cpus: '0.5'
+    mem_limit: 350M
+    environment:
+      - SPRING_ACTIVE_PROFILE=prod
+      - DEBUG=true
+      #      - JAVA_TOOL_OPTIONS=-Ddebug=true -Dlogging.level.root=DEBUG -Dlogging.level.org.springframework=DEBUG
+      - SPRING_DEVTOOLS_RESTART_ENABLED=false
+      - JAVA_OPTS=
+        -Xmx192m
+        -Xss256k
+        -XX:MaxMetaspaceSize=96m
+        -XX:CompressedClassSpaceSize=16m
+        -XX:+UseSerialGC
+    expose:
+      - "8080"
+    networks:
+      - moviee-network
+    env_file:
+      - /etc/app_user/secrets.env
+  #      - .env.prd
+
+  nginx:
+    image: nginx:stable-alpine-slim
+    container_name: nginx
+    restart: unless-stopped
+    mem_limit: 50M
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx-prod/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    networks:
+      - moviee-network
+    depends_on:
+      - moviee_app
+#
+#  certbot:
+#    image: certbot/certbot
+#    container_name: certbot
+#    restart: no
+#    volumes:
+#      - ./certbot/conf:/etc/letsencrypt
+#      - ./certbot/www:/var/www/certbot
+#    command: certonly -v --webroot -w /var/www/certbot --force-renewal --email wesleyprado.dev@gmail.com -d moviee.codemages.com.br --agree-tos
+#    networks:
+#      - moviee-network
+
+networks:
+  moviee-network:
+    driver: bridge

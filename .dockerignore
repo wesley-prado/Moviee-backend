@@ -25,3 +25,6 @@ target
 
 # DOCKER
 docker-compose.*
+
+# MIGRATION FILES
+*.sql

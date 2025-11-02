@@ -47,10 +47,12 @@ RUN adduser \
     --no-create-home \
     --uid "${UID}" \
     appuser
+
+COPY --from=extract --chown=appuser:appuser build/target/extracted/dependencies/ ./
+COPY --from=extract --chown=appuser:appuser build/target/extracted/spring-boot-loader/ ./
+COPY --from=extract --chown=appuser:appuser build/target/extracted/snapshot-dependencies/ ./
+COPY --from=extract --chown=appuser:appuser build/target/extracted/application/ ./
+
 USER appuser
-COPY --from=extract build/target/extracted/dependencies/ ./
-COPY --from=extract build/target/extracted/spring-boot-loader/ ./
-COPY --from=extract build/target/extracted/snapshot-dependencies/ ./
-COPY --from=extract build/target/extracted/application/ ./
 EXPOSE 8080
-ENTRYPOINT [ "java", "-Dspring.profiles.active=prd", "org.springframework.boot.loader.launch.JarLauncher" ]
+ENTRYPOINT [ "java", "org.springframework.boot.loader.launch.JarLauncher" ]

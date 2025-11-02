@@ -53,7 +53,7 @@ services:
     env_file:
       - .env.dev
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready" ]
+      test: [ "CMD-SHELL", "pg_isready -U admin" ]
       interval: 30s
       timeout: 60s
       retries: 5
