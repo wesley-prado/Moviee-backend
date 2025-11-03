@@ -51,8 +51,8 @@ pipeline {
         stage('Cleanup') {
             steps {
                 echo "Cleaning up local Docker images..."
-                sh "docker rmi ${dockerImageName}:${appVersion}"
-                sh "docker rmi ${dockerImageName}:latest"
+                sh "docker rmi ${dockerImageName}:${appVersion} || true"
+                sh "docker rmi ${dockerImageName}:latest || true"
             }
         }
     }
