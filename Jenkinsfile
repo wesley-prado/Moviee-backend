@@ -17,7 +17,7 @@ pipeline {
         stage('Build & Package') {
             steps {
                 echo 'Building Java project with Maven...'
-                sh './mvnw clean package -DskipTests'
+                sh './mvnw clean package'
 
                 echo 'Building Docker image: ${dockerImageName}'
 
