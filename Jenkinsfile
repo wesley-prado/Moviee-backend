@@ -14,10 +14,16 @@ pipeline {
                 checkout scm
             }
         }
+        stage('Test') {
+            steps {
+                echo "Running tests with Maven..."
+                sh "./mvnw clean test"
+            }
+        }
         stage('Build & Package') {
             steps {
                 echo 'Building Java project with Maven...'
-                sh './mvnw clean package'
+                sh './mvnw clean package -DskipTests=true'
 
                 echo 'Building Docker image: ${dockerImageName}'
 
