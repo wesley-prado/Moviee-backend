@@ -27,7 +27,7 @@ pipeline {
                     shouldRunHeavyStages = false
 
                     changedFiles.split('\n').each { file ->
-                        if (file.startsWith('src/') || file == 'pom.xml' || file.startsWith('Dockerfile')) {
+                        if (file.startsWith('src/') || file == 'pom.xml' || file.startsWith('Dockerfile') || file == "Jenkinsfile") {
                             echo "Detected changes in relevant files: ${file}"
                             shouldRunHeavyStages = true
                         }
