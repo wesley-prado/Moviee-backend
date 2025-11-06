@@ -1,5 +1,6 @@
 def dockerImageName = "wesleypradodev/moviee_app"
 def appVersion
+def shouldRunHeavyStages
 
 pipeline {
     agent any
@@ -15,13 +16,40 @@ pipeline {
                 checkout scm
             }
         }
+        stage('Check changes') {
+            script {
+                echo 'Checking for changes in the src/ directory...'
+                def changedFiles = sh(script: "git diff --name-only HEAD~1 HEAD", returnStdout: true).trim()
+
+                echo "Changed files in this push:\n${changedFiles}"
+
+                shouldRunHeavyStages = false
+
+                changedFiles.split('\n').each { file ->
+                    if (file.startsWith('src/') || file == 'pom.xml' || file.startsWith('Dockerfile')) {
+                        echo "Detected changes in relevant files: ${file}"
+                        shouldRunHeavyStages = true
+                    }
+                }
+
+                if (!shouldRunHeavyStages) {
+                    echo "No relevant changes detected. Skipping stages..."
+                }
+            }
+        }
         stage('Test') {
+            when {
+                expression { return shouldRunHeavyStages }
+            }
             steps {
                 echo "Running tests with Maven..."
                 sh "./mvnw clean test"
             }
         }
         stage('Build & Package') {
+            when {
+                expression { return shouldRunHeavyStages }
+            }
             steps {
                 echo "Building the application..."
                 sh './mvnw clean package -DskipTests=true'
@@ -38,6 +66,9 @@ pipeline {
             }
         }
         stage('Publish Docker Images') {
+            when {
+                expression { return shouldRunHeavyStages }
+            }
             steps {
                 echo "Publishing ${dockerImageName}:${appVersion} and ${dockerImageName}:latest images to Docker Hub..."
 
@@ -49,6 +80,9 @@ pipeline {
             }
         }
         stage('Cleanup') {
+            when {
+                expression { return shouldRunHeavyStages }
+            }
             steps {
                 echo "Cleaning up local Docker images..."
                 sh "docker rmi ${dockerImageName}:${appVersion} || true"
@@ -59,8 +93,14 @@ pipeline {
 
     post {
         always {
-            echo "Build process completed. Logging out from Docker Hub..."
-            sh 'docker logout'
+            echo "Build process completed."
+
+            script {
+                if (shouldRunHeavyStages) {
+                    echo "Logging out from Docker Hub..."
+                    sh 'docker logout'
+                }
+            }
         }
     }
 }
