@@ -8,11 +8,20 @@ management, seat reservation functionality, and reporting on reservations.
 
 ## Technology Stack
 
-![Java 21](https://img.shields.io/badge/Java-21-blue?logo=java&logoColor=white)  
-![Spring Boot 3.4.6](https://img.shields.io/badge/Spring_Boot-3.4.6-green?logo=springboot&logoColor=white)  
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-blue?logo=postgresql&logoColor=white)  
-![Maven 3.9.9](https://img.shields.io/badge/Maven-3.9-red?logo=apachemaven&logoColor=white)  
-![Docker](https://img.shields.io/badge/Docker-28-blue?logo=docker&logoColor=white)
+### Core Technologies
+
+[![Java 21](https://img.shields.io/badge/Java-21-blue?logo=java&logoColor=white)](#)  
+[![Spring Boot 3.4.6](https://img.shields.io/badge/Spring_Boot-3.4.6-green?logo=springboot&logoColor=white)](#)  
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-blue?logo=postgresql&logoColor=white)](#)  
+[![Docker Compose](https://img.shields.io/badge/Docker_Compose-blue?logo=docker&logoColor=white)](#)  
+[![Maven 3.9.9](https://img.shields.io/badge/Maven-3.3-red?logo=apachemaven&logoColor=white)](#)
+
+### Infrastructure and DevOps
+
+[![Docker](https://img.shields.io/badge/Docker-blue?logo=docker&logoColor=white)](#)  
+[![nginx](https://img.shields.io/badge/nginx-009639?logo=nginx&logoColor=fff)](#)  
+[![Jenkins](https://img.shields.io/badge/Jenkins-D24939?logo=jenkins&logoColor=white)](#)  
+[![DigitalOcean](https://img.shields.io/badge/DigitalOcean-0080FF?logo=digitalocean&logoColor=white)](#)
 
 ## Project Structure
 
@@ -109,12 +118,12 @@ running Docker Compose.
 ### Default Credentials
 
 * **Admin user:**
-  * Username: `admin`
-  * Password: `Admin1#@`
+    * Username: `admin`
+    * Password: `Admin1#@`
 
 * **Regular user:**
-  * Username: `myuser`
-  * Password: `User1#@@`
+    * Username: `myuser`
+    * Password: `User1#@@`
 
 ## Notes on Login and Consent Pages
 
