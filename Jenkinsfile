@@ -19,7 +19,7 @@ pipeline {
         stage('Check changes') {
             steps {
                 script {
-                    echo 'Checking for changes in the src/ directory...'
+                    echo 'Checking for relevant changes in the push...'
                     def changedFiles = sh(script: "git diff --name-only HEAD~1 HEAD", returnStdout: true).trim()
 
                     echo "Changed files in this push:\n${changedFiles}"
