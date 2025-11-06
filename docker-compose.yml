@@ -42,7 +42,7 @@ services:
       - moviee-network
     depends_on:
       - moviee_app
-#
+
 #  certbot:
 #    image: certbot/certbot
 #    container_name: certbot
