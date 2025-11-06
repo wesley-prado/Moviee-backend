@@ -17,23 +17,25 @@ pipeline {
             }
         }
         stage('Check changes') {
-            script {
-                echo 'Checking for changes in the src/ directory...'
-                def changedFiles = sh(script: "git diff --name-only HEAD~1 HEAD", returnStdout: true).trim()
+            steps {
+                script {
+                    echo 'Checking for changes in the src/ directory...'
+                    def changedFiles = sh(script: "git diff --name-only HEAD~1 HEAD", returnStdout: true).trim()
 
-                echo "Changed files in this push:\n${changedFiles}"
+                    echo "Changed files in this push:\n${changedFiles}"
 
-                shouldRunHeavyStages = false
+                    shouldRunHeavyStages = false
 
-                changedFiles.split('\n').each { file ->
-                    if (file.startsWith('src/') || file == 'pom.xml' || file.startsWith('Dockerfile')) {
-                        echo "Detected changes in relevant files: ${file}"
-                        shouldRunHeavyStages = true
+                    changedFiles.split('\n').each { file ->
+                        if (file.startsWith('src/') || file == 'pom.xml' || file.startsWith('Dockerfile')) {
+                            echo "Detected changes in relevant files: ${file}"
+                            shouldRunHeavyStages = true
+                        }
                     }
-                }
 
-                if (!shouldRunHeavyStages) {
-                    echo "No relevant changes detected. Skipping stages..."
+                    if (!shouldRunHeavyStages) {
+                        echo "No relevant changes detected. Skipping stages..."
+                    }
                 }
             }
         }
