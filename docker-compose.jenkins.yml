@@ -1,0 +1,50 @@
+name: jenkins_prd
+
+services:
+  jenkins:
+    build: .
+    image: wesleypradodev/jenkins-blueocean:0.0.1
+    privileged: false
+    user: jenkins
+    restart: unless-stopped
+    container_name: jenkins
+    volumes:
+      - jenkins-data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - JAVA_OPTS=-Xmx512m -Xms256m
+    networks:
+      - jenkins-network
+
+  nginx:
+    image: nginx:stable-alpine-slim
+    container_name: nginx
+    restart: unless-stopped
+    mem_limit: 50M
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx-prod/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./certbot-conf:/etc/letsencrypt
+      - ./certbot-www:/var/www/certbot
+    networks:
+      - jenkins-network
+    depends_on:
+      - jenkins
+
+#  certbot:
+#    image: certbot/certbot
+#    container_name: certbot
+#    restart: no
+#    volumes:
+#      - ./certbot-conf:/etc/letsencrypt
+#      - ./certbot-www:/var/www/certbot
+#    command: certonly -v --webroot -w /var/www/certbot --force-renewal --email wesleyprado.dev@gmail.com -d jenkins.moviee.codemages.com.br --agree-tos
+
+networks:
+  jenkins-network:
+    driver: bridge
+
+volumes:
+  jenkins-data:
