@@ -46,6 +46,6 @@ public class AuthConsentControllerTest {
         .param( OAuth2ParameterNames.SCOPE, "openid profile" )
         .param( OAuth2ParameterNames.STATE, "xyz" ) )
       .andExpect( status().is2xxSuccessful() )
-      .andExpect( view().name( "login" ) );
+      .andExpect( view().name( "error" ) );
   }
 }
