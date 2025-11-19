@@ -30,8 +30,10 @@ public class RememberMeConfig {
 
   @Bean
   public PersistentTokenRepository persistentTokenRepository() {
-    JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+    JdbcTokenRepositoryImpl tokenRepository = new AuthSchemaTokenRepository();
     tokenRepository.setDataSource( dataSource );
+
+    tokenRepository.setCreateTableOnStartup( false ); // flyway handles table creation
 
     return tokenRepository;
   }
