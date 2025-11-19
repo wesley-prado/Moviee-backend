@@ -1,6 +1,6 @@
 CREATE SCHEMA IF NOT EXISTS auth;
 
-CREATE TABLE auth.clients
+CREATE TABLE IF NOT EXISTS auth.clients
 (
     id            UUID         NOT NULL,
     client_id     VARCHAR(100) NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE auth.clients
     CONSTRAINT pk_clients PRIMARY KEY (id)
 );
 
-CREATE TABLE auth.users
+CREATE TABLE IF NOT EXISTS auth.users
 (
     id            UUID         NOT NULL,
     username      VARCHAR(20)  NOT NULL,
