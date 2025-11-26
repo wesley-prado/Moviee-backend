@@ -2,12 +2,15 @@ package com.codemages.Moviee.user.exception;
 
 import com.codemages.Moviee.core.exception.ErrorResponse;
 import com.codemages.Moviee.user.controller.v1.PrivateUserController;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice(basePackageClasses = PrivateUserController.class)
 public class UserExceptionHandler {
   @ExceptionHandler(UserException.class)
