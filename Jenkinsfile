@@ -81,6 +81,30 @@ pipeline {
                 }
             }
         }
+        stage('Deploy to production') {
+            when {
+                expression { return shouldRunHeavyStages }
+            }
+            steps {
+                echo "Deploying application to production environment..."
+
+                sshagent(['vps-app-ssh-key']) {
+                    sh """
+                        ssh -o StrictHostKeyChecking=no root@134.199.242.115 '
+                        cd /srv/moviee &&
+                        
+                        # 1. Update the Docker image
+                        sed -i "s|image: ${dockerImageName}:.*|image: ${dockerImageName}:${appVersion}|g" docker-compose.yml &&
+
+                        # 2. Pull the new image
+                        docker compose pull moviee_app &&
+                        
+                        # 3. Restart the service
+                        docker compose up -d --force-recreate moviee_app
+                    """
+                }
+            }
+        }
         stage('Cleanup') {
             when {
                 expression { return shouldRunHeavyStages }
