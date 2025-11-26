@@ -1,24 +1,32 @@
 package com.codemages.Moviee.auth.security.config;
 
-import com.codemages.Moviee.WebIntegrationTestContainer;
 import com.codemages.Moviee.auth.security.config.constants.ApiPaths;
 import com.codemages.Moviee.auth.security.password.PasswordGenerator;
 import com.codemages.Moviee.user.User;
 import com.codemages.Moviee.user.UserRepository;
 import com.codemages.Moviee.user.constant.DocumentType;
 import com.codemages.Moviee.user.constant.Role;
+import lombok.extern.slf4j.Slf4j;
+import org.flywaydb.core.Flyway;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -28,7 +36,43 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class DefaultSecurityConfigTestWeb extends WebIntegrationTestContainer {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Testcontainers
+@Slf4j
+public class DefaultSecurityConfigTestWeb {
+  private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(
+    DefaultSecurityConfigTestWeb.class );
+
+  @Container
+  private static final PostgreSQLContainer<?> CONTAINER = new PostgreSQLContainer<>(
+    "postgres:17" ).withEnv( "POSTGRES_INITDB_ARGS", "-d" ).withReuse( true );
+
+  @BeforeAll
+  static void beforeAll() {
+    if ( !CONTAINER.isRunning() ) {
+      CONTAINER.start();
+      log.info( "🐳 Testcontainer iniciado: {}", CONTAINER.getJdbcUrl() );
+    }
+  }
+
+  @DynamicPropertySource
+  static void setProperties(DynamicPropertyRegistry registry) {
+    registry.add(
+      "spring.datasource.url",
+      () -> CONTAINER.getJdbcUrl().toString() + "?currentSchema=auth,cinema"
+    );
+    registry.add( "spring.datasource.username", CONTAINER::getUsername );
+    registry.add( "spring.datasource.password", CONTAINER::getPassword );
+    registry.add( "moviee.security.remember-me-key", () -> "remember-me-key" );
+    registry.add( "moviee.security.issuer-uri", () -> "https://moviee.test.com/" );
+
+    registry.add( "spring.datasource.hikari.maximum-pool-size", () -> "10" );
+    registry.add( "spring.datasource.hikari.minimum-idle", () -> "2" );
+    registry.add( "spring.datasource.hikari.connection-timeout", () -> "30000" ); // 30s
+    registry.add( "spring.datasource.hikari.idle-timeout", () -> "600000" ); // 10min
+    registry.add( "spring.datasource.hikari.max-lifetime", () -> "1800000" ); // 30min
+  }
+
   private static final String EXPLORER_ENDPOINT = "/explorer/index.html#uri=/";
 
   @Autowired
@@ -41,6 +85,8 @@ public class DefaultSecurityConfigTestWeb extends WebIntegrationTestContainer {
   private PasswordGenerator passwordGenerator;
   @Autowired
   private PersistentTokenRepository persistentTokenRepository;
+  @Autowired
+  Flyway flyway;
 
   private MockMvc mvc;
 
@@ -49,6 +95,9 @@ public class DefaultSecurityConfigTestWeb extends WebIntegrationTestContainer {
 
   @BeforeEach
   void setUp() {
+    flyway.clean();
+    flyway.migrate();
+
     mvc = MockMvcBuilders.webAppContextSetup( context ).apply( springSecurity() ).build();
 
     testUserPassword = passwordGenerator.generate();

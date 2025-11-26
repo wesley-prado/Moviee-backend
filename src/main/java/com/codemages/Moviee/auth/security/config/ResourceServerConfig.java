@@ -32,7 +32,7 @@ public class ResourceServerConfig {
         .requestMatchers( ApiPaths.EXPLORER_RESOURCES )
       );
 
-    http.sessionManagement( session -> session.sessionCreationPolicy( SessionCreationPolicy.STATELESS ) );
+    http.sessionManagement( session -> session.sessionCreationPolicy( SessionCreationPolicy.IF_REQUIRED ) );
 
     http
       .cors( withDefaults() )
@@ -42,7 +42,8 @@ public class ResourceServerConfig {
         .requestMatchers( ApiPaths.EXPLORER_RESOURCES ).hasAuthority( Role.ADMIN.name() )
         .anyRequest().authenticated() )
       .oauth2ResourceServer( oauth2 -> oauth2.jwt(
-        jwt -> jwt.jwtAuthenticationConverter( jwtAuthenticationConverter() ) ) );
+        jwt -> jwt.jwtAuthenticationConverter( jwtAuthenticationConverter() ) ) )
+      .rememberMe( rememberMeCustomizer );
     return http.build();
   }
 

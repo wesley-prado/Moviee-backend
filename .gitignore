@@ -44,3 +44,6 @@ htmlReport/
 
 # Backup files
 *.bkp
+
+# SSL certificates
+certbot/
