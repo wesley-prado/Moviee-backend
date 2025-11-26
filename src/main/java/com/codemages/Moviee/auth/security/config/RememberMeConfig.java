@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.RememberMeConfigurer;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -20,10 +21,12 @@ public class RememberMeConfig {
 
   private final DataSource dataSource;
   private final SecurityProperties securityProperties;
+  private final UserDetailsService userDetailsService;
 
   @Bean
   public Customizer<RememberMeConfigurer<HttpSecurity>> getConfig() {
     return rememberMe -> rememberMe.tokenRepository( persistentTokenRepository() )
+      .userDetailsService( userDetailsService )
       .tokenValiditySeconds( FOURTEEN_DAYS_IN_SECONDS )
       .key( securityProperties.rememberMeKey() );
   }
