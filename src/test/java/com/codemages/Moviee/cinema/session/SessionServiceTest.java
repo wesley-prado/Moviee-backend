@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,21 +40,24 @@ public class SessionServiceTest {
   @Test
   @DisplayName("Deve retornar um DTO quando encontrar um registro de Session")
   void findById_WhenRecordExists_ShouldReturnDTO() {
+    var fixedTime = ZonedDateTime.of( 2025, 11, 26, 10, 0, 0, 0, ZoneId.of( "America/Sao_Paulo" ) );
+
     var room = CinemaFactory.createRoomMock();
     var movie = CinemaFactory.createMovieMock();
     var session = CinemaFactory.createSessionMock( movie, room );
+    session.setStartTime( fixedTime );
+    session.setEndTime( fixedTime.plusHours( 3 ) );
 
     when( sessionRepository.findById( 1L ) ).thenReturn( Optional.of( session ) );
     when( movieRepository.findById( 1L ) ).thenReturn( Optional.of( movie ) );
     when( roomRepository.findById( 1L ) ).thenReturn( Optional.of( room ) );
 
-    //TODO: Corrigir teste utilizando o ZoneId de Sao Paulo
     var expectedResponse = SessionResponseDTO.builder()
       .id( 1L )
       .movieTitle( movie.getTitle() )
       .roomName( room.getName() )
       .startTime( session.getStartTime() )
-      .endTime( session.getStartTime().plusHours( 2 ) )
+      .endTime( session.getStartTime().plusHours( 3 ) )
       .build();
 
     SessionResponseDTO actualResponse = sessionService.findById( 1L );
