@@ -90,7 +90,7 @@ pipeline {
 
                 sshagent(['vps-app-ssh-key']) {
                     sh """
-                        ssh -o StrictHostKeyChecking=no root@134.199.242.115 '
+                        ssh -o StrictHostKeyChecking=no root@134.199.242.115 << 'EOF'
                         cd /srv/moviee &&
                         
                         # 1. Update the Docker image
@@ -101,6 +101,7 @@ pipeline {
                         
                         # 3. Restart the service
                         docker compose up -d --force-recreate moviee_app
+EOF
                     """
                 }
             }
