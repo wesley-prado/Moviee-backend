@@ -8,14 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 @SpringBootTest
-@Testcontainers
 @AutoConfigureTestEntityManager
 public abstract class DatabaseTestContainer {
-  @Container
   private static final PostgreSQLContainer<?> CONTAINER = new PostgreSQLContainer<>(
     "postgres:latest" ).withEnv( "POSTGRES_INITDB_ARGS", "-d" );
 

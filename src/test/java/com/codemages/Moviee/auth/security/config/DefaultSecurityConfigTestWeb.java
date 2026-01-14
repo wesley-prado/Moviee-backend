@@ -6,7 +6,6 @@ import com.codemages.Moviee.user.User;
 import com.codemages.Moviee.user.UserRepository;
 import com.codemages.Moviee.user.constant.DocumentType;
 import com.codemages.Moviee.user.constant.Role;
-import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,8 +24,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -37,13 +34,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Testcontainers
-@Slf4j
 public class DefaultSecurityConfigTestWeb {
   private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(
     DefaultSecurityConfigTestWeb.class );
 
-  @Container
   private static final PostgreSQLContainer<?> CONTAINER = new PostgreSQLContainer<>(
     "postgres:17" ).withEnv( "POSTGRES_INITDB_ARGS", "-d" ).withReuse( true );
 
