@@ -89,20 +89,14 @@ pipeline {
                 echo "Deploying application to production environment..."
 
                 sshagent(['vps-app-ssh-key']) {
-                    sh """
-                        ssh -o StrictHostKeyChecking=no root@134.199.242.115 << 'EOF'
+                    def remoteCommand = """
                         cd /srv/moviee &&
-                        
-                        # 1. Update the Docker image
                         sed -i "s|image: ${dockerImageName}:.*|image: ${dockerImageName}:${appVersion}|g" docker-compose.yml &&
-
-                        # 2. Pull the new image
-                        docker compose pull moviee_app &&
-                        
-                        # 3. Restart the service
-                        docker compose up -d --force-recreate moviee_app
-EOF
+                        docker compose -f docker-compose.yml pull moviee_app &&
+                        docker compose -f docker-compose.yml up -d --force-recreate moviee_app
                     """
+
+                    sh "ssh -o StrictHostKeyChecking=no root@134.199.242.115 '${remoteCommand}'"
                 }
             }
         }
