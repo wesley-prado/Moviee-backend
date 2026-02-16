@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,8 +48,15 @@ public class Movie {
   @Column(nullable = false)
   private int durationInMinutes;
 
-  @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "movie",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true,
+    fetch = FetchType.EAGER)
   private Set<MovieCredit> credits = new HashSet<>();
+
+  public ArrayList<MovieCredit> getCredits() {
+    return new ArrayList<>( credits );
+  }
 
   private void setGenres(Set<Genre> genres) {
     this.genres = genres;
