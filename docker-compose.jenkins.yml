@@ -32,6 +32,15 @@ services:
       - jenkins-network
     depends_on:
       - jenkins
+    command: "/bin/sh -c 'while :; do sleep 6d & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done'"
 
 #  certbot:
 #    image: certbot/certbot
