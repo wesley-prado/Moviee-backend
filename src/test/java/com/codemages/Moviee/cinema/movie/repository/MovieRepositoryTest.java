@@ -8,6 +8,7 @@ import com.codemages.Moviee.cinema.movie.entity.Movie;
 import com.codemages.Moviee.cinema.movie.entity.MovieCredit;
 import com.codemages.Moviee.cinema.person.Person;
 import com.codemages.Moviee.cinema.person.PersonRepository;
+import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -106,8 +107,8 @@ public class MovieRepositoryTest extends DatabaseTestContainer {
   @DisplayName("DML")
   class DmlTests {
     @Test
-    @DisplayName("Should persist MovieCredits correctly when saving a Movie with associated " +
-      "credits")
+    @DisplayName(
+      "Should persist MovieCredits correctly when saving a Movie with associated " + "credits")
     void shouldPersistMovieCreditsCorrectly() {
       var actor = Person.builder()
         .artisticName( "Keanu Reeves" )
@@ -142,16 +143,13 @@ public class MovieRepositoryTest extends DatabaseTestContainer {
       entityManager.flush();
       entityManager.clear();
 
-      var foundMovie = movieRepository.findById( savedMovie.getId() ).orElseThrow();
+      var foundMovie = movieRepository.findMovieByTitle( savedMovie.getTitle() ).orElseThrow();
 
       assertThat( foundMovie.getTitle() ).isEqualTo( "The Matrix" );
 
-      assertThat( foundMovie.getCredits() ).hasSize( 1 );
-      var foundCredit = foundMovie.getCredits().getFirst();
-
-      assertThat( foundCredit.getRole() ).isEqualTo( MovieRole.ACTOR );
-      assertThat( foundCredit.getPerson().getArtisticName() ).isEqualTo( "Keanu Reeves" );
-      assertThat( foundCredit.getMovie().getTitle() ).isEqualTo( "The Matrix" );
+      assertThat( foundMovie.getCredits() ).hasSize( 1 )
+        .extracting( MovieCredit::getRole, mc -> mc.getPerson().getArtisticName() )
+        .containsExactly( Tuple.tuple( MovieRole.ACTOR, "Keanu Reeves" ) );
     }
   }
 
@@ -199,15 +197,13 @@ public class MovieRepositoryTest extends DatabaseTestContainer {
       assertThat( foundMovie ).isPresent();
       var credits = foundMovie.get().getCredits();
 
-      assertThat( credits ).hasSize( 3 );
-
-      assertThat( credits ).filteredOn( c -> c.getRole() == MovieRole.DIRECTOR )
-        .extracting( c -> c.getPerson().getArtisticName() )
-        .containsOnly( "Frank Darabont" );
-
-      assertThat( credits ).filteredOn( c -> c.getRole() == MovieRole.ACTOR )
-        .extracting( c -> c.getPerson().getArtisticName() )
-        .containsExactlyInAnyOrder( "Michael Clarke Duncan", "Tom Hanks" );
+      assertThat( credits ).hasSize( 3 )
+        .extracting( MovieCredit::getRole, mc -> mc.getPerson().getArtisticName() )
+        .containsExactlyInAnyOrder(
+          Tuple.tuple( MovieRole.DIRECTOR, "Frank Darabont" ),
+          Tuple.tuple( MovieRole.ACTOR, "Michael Clarke Duncan" ),
+          Tuple.tuple( MovieRole.ACTOR, "Tom Hanks" )
+        );
     }
   }
 }
