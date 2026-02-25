@@ -1,10 +1,11 @@
-package com.codemages.Moviee.cinema.person;
+package com.codemages.Moviee.cinema.movie.repository;
 
 import com.codemages.Moviee.DatabaseTestContainer;
 import com.codemages.Moviee.cinema.factory.CinemaFactory;
 import com.codemages.Moviee.cinema.movie.constant.MovieRole;
 import com.codemages.Moviee.cinema.movie.entity.Movie;
 import com.codemages.Moviee.cinema.movie.entity.MovieCredit;
+import com.codemages.Moviee.cinema.movie.entity.Person;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

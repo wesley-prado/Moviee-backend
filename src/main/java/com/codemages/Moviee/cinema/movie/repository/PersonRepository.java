@@ -1,5 +1,6 @@
-package com.codemages.Moviee.cinema.person;
+package com.codemages.Moviee.cinema.movie.repository;
 
+import com.codemages.Moviee.cinema.movie.entity.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
