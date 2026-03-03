@@ -1,7 +1,6 @@
 package com.codemages.Moviee.cinema.movie.entity;
 
 import com.codemages.Moviee.cinema.movie.constant.MovieRole;
-import com.codemages.Moviee.cinema.person.Person;
 import jakarta.persistence.*;
 import lombok.*;
 

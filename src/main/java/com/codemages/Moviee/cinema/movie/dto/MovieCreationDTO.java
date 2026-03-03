@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.Range;
 
 import java.util.List;
 
-//TODO: Corrigir a forma de receber o diretor, elenco e escritores (credits)
 @NotNull(message = "Os dados do filme são obrigatórios.")
 public record MovieCreationDTO(@NotBlank(message = "O título é obrigatório.") String title,
 
@@ -25,10 +24,4 @@ public record MovieCreationDTO(@NotBlank(message = "O título é obrigatório.")
                                @Min(value = 50,
                                  message = "A duração mínima é 50 minutos.") int durationInMinutes,
 
-                               @NotBlank(message = "O diretor é obrigatório.") String director,
-
-                               @Size(min = 1,
-                                 message = "O elenco deve conter pelo menos 1 membro.") String[] cast,
-
-                               @Size(min = 1,
-                                 message = "Os escritores devem conter pelo menos 1 membro.") String[] writers) {}
+                               List<Long> castIds) {}

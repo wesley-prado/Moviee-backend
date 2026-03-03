@@ -6,8 +6,7 @@ import com.codemages.Moviee.cinema.movie.constant.MovieRole;
 import com.codemages.Moviee.cinema.movie.entity.Genre;
 import com.codemages.Moviee.cinema.movie.entity.Movie;
 import com.codemages.Moviee.cinema.movie.entity.MovieCredit;
-import com.codemages.Moviee.cinema.person.Person;
-import com.codemages.Moviee.cinema.person.PersonRepository;
+import com.codemages.Moviee.cinema.movie.entity.Person;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,8 +137,6 @@ public class MovieRepositoryTest extends DatabaseTestContainer {
 
       var savedMovie = movieRepository.save( movie );
 
-      // force flush and clear to ensure we read from the database and not from the persistence 
-      // context
       entityManager.flush();
       entityManager.clear();
 

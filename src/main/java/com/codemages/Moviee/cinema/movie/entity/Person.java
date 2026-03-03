@@ -3,7 +3,7 @@ package com.codemages.Moviee.cinema.movie.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,8 +27,8 @@ public class Person {
   @Column(name = "real_name", nullable = false)
   private String realName;
 
-  @Column(name = "dob", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
-  private ZonedDateTime dob;
+  @Column(name = "dob", nullable = false)
+  private LocalDate dob;
 
   private String about;
 

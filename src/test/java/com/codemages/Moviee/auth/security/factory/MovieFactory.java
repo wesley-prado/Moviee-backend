@@ -103,9 +103,7 @@ public class MovieFactory {
         description,
         rating,
         durationInMinutes,
-        director,
-        cast,
-        writers
+        List.of( 1L )
       );
     }
   }

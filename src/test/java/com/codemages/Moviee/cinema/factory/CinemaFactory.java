@@ -6,7 +6,7 @@ import com.codemages.Moviee.cinema.movie.dto.GenreResponseDTO;
 import com.codemages.Moviee.cinema.movie.entity.Genre;
 import com.codemages.Moviee.cinema.movie.entity.Movie;
 import com.codemages.Moviee.cinema.movie.entity.MovieCredit;
-import com.codemages.Moviee.cinema.person.Person;
+import com.codemages.Moviee.cinema.movie.entity.Person;
 import com.codemages.Moviee.cinema.room.Room;
 import com.codemages.Moviee.cinema.session.Session;
 import com.codemages.Moviee.test.util.IdGenerator;
