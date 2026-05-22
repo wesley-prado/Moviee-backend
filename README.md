@@ -1,6 +1,6 @@
 # 🎬 Moviee - Movie Reservation System
 
-Movie is a back-end system for a movie reservation service built with Java 21 and Spring Boot.  
+Moviee is a back-end system for a movie reservation service built with Java 21 and Spring Boot.  
 The service allows users to sign up, log in, browse movies, reserve seats for specific showtimes,
 and manage their reservations.  
 The system features user authentication with OAuth2, role-based authorization, movie and session
